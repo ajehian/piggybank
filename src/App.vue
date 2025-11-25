@@ -1,6 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import BaseLoader from '@/components/BaseLoader.vue'
+</script>
 
 <template>
+  <BaseLoader />
   <RouterView />
 </template>
 
