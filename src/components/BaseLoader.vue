@@ -1,6 +1,12 @@
+<script setup lang="ts">
+import { useBaseLoaderStore } from '@/stores/baseLoader'
+
+const baseLoader = useBaseLoaderStore()
+</script>
 <template>
   <div
     class="w-full h-full absolute left-0 top-0 z-50 flex items-center flex-wrap justify-center bg-black/85"
+    v-show="baseLoader.isActive"
   >
     <span class="loader"></span>
   </div>
