@@ -8,4 +8,4 @@ export const maxLengthMsg = (label: string, min: number) =>
   `${label} must be less than ${min} characters`
 
 export const isAlphanumericMsg = (label: string) => `${label} must only contain letters or numbers`
-export const isNumericMsg = (label: string) => `${label} must only contain numbers`
+export const isIntegerMsg = (label: string) => `${label} must only contain numbers`

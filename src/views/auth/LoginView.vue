@@ -2,11 +2,12 @@
 import { useForm } from 'vee-validate'
 import { z } from 'zod'
 import { PiggyBank } from 'lucide-vue-next'
-import { alphanumericRegex, numericRegex } from '@/helpers/validationRegex'
+import { alphanumericRegex, integerRegex } from '@/helpers/validationRegex'
 import {
-  fixedLengthMsg,
   isAlphanumericMsg,
-  isNumericMsg,
+  isIntegerMsg,
+  minLengthMsg,
+  maxLengthMsg,
   requiredMsg,
 } from '@/helpers/validationMessages'
 import { Button } from '@/components/ui/button'
@@ -17,17 +18,20 @@ import FormInput from '@/components/FormInput.vue'
 
 const schema = z.object({
   username: z
-    .string({ error: requiredMsg('Username') })
-    .nonempty({ error: requiredMsg('Username') })
+    .string(requiredMsg('Username'))
+    .nonempty(requiredMsg('Username'))
+    .min(3, minLengthMsg('Username', 3))
+    .max(50, maxLengthMsg('Username', 50))
     .regex(alphanumericRegex, isAlphanumericMsg('Username')),
   password: z
-    .string({ error: requiredMsg('Password') })
-    .nonempty({ error: requiredMsg('Password') }),
-  group_code: z
-    .string({ error: requiredMsg('Group code') })
-    .nonempty({ error: requiredMsg('Group code') })
-    .regex(numericRegex, isNumericMsg('Group code'))
-    .length(3, fixedLengthMsg('Group code', 3)),
+    .string(requiredMsg('Password'))
+    .nonempty(requiredMsg('Password'))
+    .min(5, minLengthMsg('Password', 5))
+    .max(75, maxLengthMsg('Password', 75)),
+  code: z
+    .string(requiredMsg('Group code'))
+    .nonempty(requiredMsg('Group code'))
+    .regex(integerRegex, isIntegerMsg('Group code')),
 })
 
 const { handleSubmit } = useForm({
@@ -62,6 +66,8 @@ const onSubmit = handleSubmit(async () => {
                   type="text"
                   id="username"
                   placeholder="Enter your username"
+                  min="3"
+                  maxlength="50"
                 />
               </Field>
               <Field>
@@ -73,19 +79,15 @@ const onSubmit = handleSubmit(async () => {
                   id="password"
                   type="password"
                   placeholder="Enter your password"
+                  min="5"
+                  maxlength="75"
                 />
               </Field>
               <Field>
                 <div class="flex items-center">
-                  <FieldLabel for="group_code">Group code</FieldLabel>
+                  <FieldLabel for="code">Group code</FieldLabel>
                 </div>
-                <FormInput
-                  name="group_code"
-                  id="group_code"
-                  type="text"
-                  placeholder="Enter your group code"
-                  maxlength="3"
-                />
+                <FormInput name="code" id="code" type="text" placeholder="Enter your group code" />
               </Field>
               <Field>
                 <Button type="submit">Login</Button>
